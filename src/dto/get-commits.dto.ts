@@ -1,6 +1,9 @@
 import { IsString, IsNotEmpty, IsUrl } from 'class-validator';
+import { Author } from 'src/interfaces/author.interface';
+import { Commit } from 'src/interfaces/commit.interface';
+import { Parent } from 'src/interfaces/parent.interface';
 
-export class CreateFooDto {
+export class GetCommitsDto {
   @IsString()
   @IsNotEmpty()
   sha: string;
@@ -10,7 +13,7 @@ export class CreateFooDto {
   node_id: string;
 
   @IsNotEmpty()
-  commit: any;
+  commit: Commit;
 
   @IsNotEmpty()
   @IsUrl()
@@ -25,11 +28,11 @@ export class CreateFooDto {
   comments_url: string;
 
   @IsNotEmpty()
-  author: any;
+  author: Author;
 
   @IsNotEmpty()
-  committer: any;
+  committer: Author;
 
   @IsNotEmpty()
-  parents: any[];
+  parents: Parent[];
 }
