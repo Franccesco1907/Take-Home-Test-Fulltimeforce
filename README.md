@@ -4,7 +4,7 @@
 
 This project was bootstrapped with [Nest](https://github.com/nestjs/nest) framework TypeScript.
 
-Note: `.env` should be secret, but I'll push it anyway only to facilitate the revision. 
+Note: `.env` should be secret, but I'll push it anyway only to facilitate the revision.
 
 It doesn't imply a security problem, because GITHUB_TOKEN_API was created with only read permission.
 
@@ -46,6 +46,12 @@ $ npm run test:e2e
 $ npm run test:cov
 ```
 
+## Documentation
+
+If you want to see the project documentation you can do it in `localhost:8080/docs`
+
+This documentation of API's was made using [Swagger](https://swagger.io/).
+
 ## Connect with frontend
 
-Go to [Take-Home-Test-Fulltimeforce-Frontend](https://github.com/Franccesco1907/Take-Home-Test-Fulltimeforce-Frontend) and run the project to allow connect with the backend.
+Go to [Take-Home-Test-Fulltimeforce-Frontend](https://github.com/Franccesco1907/Take-Home-Test-Fulltimeforce-Frontend) and run the project to allow connect with the frontend.
