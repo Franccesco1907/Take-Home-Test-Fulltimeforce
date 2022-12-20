@@ -4,10 +4,12 @@ import { CommitController } from '../src/controllers/commit/commit.controller';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 
 import { test } from './jest.test.config';
-import { mock } from './mocks/commits';
+import { getCommitsMock } from './mocks/getCommits';
+import { getByMessageMock } from './mocks/getByMessage';
+import { GithubCommit } from 'src/interfaces/github-commit.interface';
 
 describe('CommitController', () => {
-  let commitscontroller: CommitController;
+  let commitsController: CommitController;
   let commitService: CommitService;
 
   beforeAll(async () => {
@@ -21,13 +23,21 @@ describe('CommitController', () => {
       providers: [CommitService, ConfigService, ConfigModule],
     }).compile();
     commitService = module.get<CommitService>(CommitService);
-    commitscontroller = module.get<CommitController>(CommitController);
+    commitsController = module.get<CommitController>(CommitController);
   });
 
   describe('getCommits', () => {
     it('should return an array of GitHub Commits', async () => {
-      let result = await commitscontroller.getCommits();
-      expect(result).toEqual(mock);
+      let result: GithubCommit[] = await commitsController.getCommits();
+      result.shift(); // In despite of push a commit, unit test will work, because last commit will be omitted
+      expect(result).toEqual(getCommitsMock);
+    });
+  });
+
+  describe('getByMessage', () => {
+    it('should return an array of GitHub Commits by message', async () => {
+      let result: GithubCommit[] = await commitsController.getByMessage({message: 'Adding'});
+      expect(result).toEqual(getByMessageMock);
     });
   });
 });
