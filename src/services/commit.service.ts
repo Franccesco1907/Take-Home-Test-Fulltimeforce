@@ -53,4 +53,17 @@ export class CommitService {
       throw new NotFoundException(`${error}`);
     }
   }
+
+  async getByMessage(message): Promise<GithubCommit[]> {
+    try {
+      const response = await this._http.get(
+        `/repos/${this._owner}/${this._repo}/commits`,
+      );
+      const data = response.data;
+      return data.filter((commit) => commit.commit.message.match(message));
+    } catch (error) {
+      console.error(`The following error has occurred: ${error}`);
+      throw new NotFoundException(`${error}`);
+    }
+  }
 }

@@ -1,4 +1,4 @@
-import { Controller, Get, HttpCode, HttpStatus } from '@nestjs/common';
+import { Body, Controller, Get, HttpCode, HttpStatus, Post } from '@nestjs/common';
 import { CommitService } from '../../services/commit.service';
 
 @Controller('commit')
@@ -15,10 +15,10 @@ export class CommitController {
     }
   }
 
-  @Get('filter')
-  getOne() {
+  @Post('filter')
+  getByMessage(@Body() body) {
     try {
-      return this.commitService.getAll();
+      return this.commitService.getByMessage(body.message);
     } catch (error) {
       throw new Error(`The following error has occurred: ${error}`);
     }
