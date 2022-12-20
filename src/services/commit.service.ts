@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import axios, { Axios } from 'axios';
 import { GithubCommit } from 'src/interfaces/github-commit.interface';
@@ -14,7 +14,6 @@ export class CommitService {
     const repo = this.configService.get<string>('GITHUB_REPO');
     const token = this.configService.get<string>('GITHUB_API_TOKEN');
     const owner = this.configService.get<string>('GITHUB_OWNER');
-
     if (api_url == undefined) {
       throw new Error('GITHUB_API_URL not found!');
     }
@@ -30,7 +29,7 @@ export class CommitService {
     if (owner == undefined) {
       throw new Error('GITHUB_OWNER not found!');
     }
-    console.log({ api_url, repo, token, owner });
+
     this._owner = owner;
     this._repo = repo;
 
@@ -42,12 +41,16 @@ export class CommitService {
     });
   }
 
-  async getAll() {
-    const response = await this._http.get(
-      `/repos/${this._owner}/${this._repo}/commits`,
-    );
-    const data: GithubCommit[] = response.data;
-    console.log('data', data);
-    return response.data;
+  async getAll(): Promise<GithubCommit[]> {
+    try {
+      const response = await this._http.get(
+        `/repos/${this._owner}/${this._repo}/commits`,
+      );
+      const data: GithubCommit[] = response.data;
+      return data;
+    } catch (error) {
+      console.error(`The following error has occurred: ${error}`);
+      throw new NotFoundException(`${error}`);
+    }
   }
 }
